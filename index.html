@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aleh Haiko — lab</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --muted: #6b6b66;
+      --line: #e2e2dd;
+      --bg: #fafaf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      padding: 24px;
+    }
+    main { max-width: 480px; text-align: center; }
+    h1 { font-size: 28px; font-weight: 500; letter-spacing: -0.01em; }
+    .rule { width: 40px; height: 1px; background: var(--line); margin: 20px auto; }
+    p { color: var(--muted); font-size: 16px; line-height: 1.7; }
+    .tag {
+      display: inline-block;
+      margin-top: 24px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Aleh Haiko</h1>
+    <div class="rule"></div>
+    <p>This is a working lab — a live prototype is taking shape here.</p>
+    <span class="tag">lab.alehhaiko.com</span>
+  </main>
+</body>
+</html>
