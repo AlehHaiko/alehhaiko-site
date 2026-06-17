@@ -105,7 +105,6 @@ body.search-active .overlay { opacity: 1; }
   padding-left: 20px;
   background: #F5F5F7;
   border-radius: 8px;
-  overflow: hidden;
   box-shadow:
     0 -30px 60px -20px rgba(0, 0, 0, 0.10),
     0 50px 100px -20px rgba(0, 0, 0, 0.10),
@@ -152,8 +151,8 @@ body.search-active .overlay { opacity: 1; }
   cursor: default;
   transition: background 0.15s ease;
 }
-.btn-read:not(:disabled) { background: var(--btn-on); cursor: pointer; }
-.btn-read:not(:disabled):hover { background: #E22B00; }
+.btn-read.active { background: var(--btn-on); cursor: pointer; }
+.btn-read.active:hover { background: #E22B00; }
 
 .helper {
   margin-top: 28px;
@@ -162,3 +161,45 @@ body.search-active .overlay { opacity: 1; }
   color: var(--ink);
 }
 .helper strong { font-weight: 600; }
+
+/* --- Hover tooltips (dark) --- */
+.btn-read, .clear-icon { position: relative; }
+
+.btn-read::after, .clear-icon::after {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #1D1D1F;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 40;
+}
+.btn-read::before, .clear-icon::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 40;
+}
+
+/* Button tooltip: below, text depends on active state */
+.btn-read::after { content: "🚀 Grab one…"; top: calc(100% + 13px); }
+.btn-read.active::after { content: "🚀 Try it out!"; }
+.btn-read::before { top: calc(100% + 1px); border-bottom-color: #1D1D1F; }
+.btn-read:hover::after, .btn-read:hover::before { opacity: 1; }
+
+/* Clear tooltip: above, only when there is text to clear */
+.clear-icon::after { content: "Clear"; bottom: calc(100% + 13px); }
+.clear-icon::before { bottom: calc(100% + 1px); border-top-color: #1D1D1F; }
+.clear-icon.active:hover::after, .clear-icon.active:hover::before { opacity: 1; }

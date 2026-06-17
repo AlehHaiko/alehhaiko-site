@@ -37,7 +37,7 @@
           <path d="M6.5 6.5 L13.5 13.5 M13.5 6.5 L6.5 13.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
         </svg>
       </span>
-      <button type="submit" class="btn-read" disabled>Get &amp; Read it</button>
+      <button type="submit" class="btn-read" aria-disabled="true">Get &amp; Read it</button>
     </form>
 
     <p class="helper">Copy &amp; Past any <a class="yt-link" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a> video link and <strong>Qubts</strong> will bring you the joy of reading.</p>
@@ -52,7 +52,9 @@
 
     function refresh() {
       const text = input.value.trim();
-      btn.disabled = !YT.test(text);            // button active only with a YouTube URL
+      const ok = YT.test(text);                 // button active only with a YouTube URL
+      btn.classList.toggle('active', ok);
+      btn.setAttribute('aria-disabled', String(!ok));
       clearIcon.classList.toggle('active', text.length > 0);  // clear active with any text
     }
     input.addEventListener('input', refresh);
