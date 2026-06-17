@@ -1,14 +1,16 @@
-/* Qubts — Home (1.2-01). Stage 1: hero block, pixel-close to the Sketch design.
-   Values come from the Sketch file and from Aleh's ui-bugs annotations. */
+/* Qubts — Home (1.2-01). Hero block + search states, pixel-close to the Sketch design.
+   Values from the Sketch file, Aleh's ui-bugs notes, and the search_user-flow states. */
 
 :root {
   --ink: #1D1D1F;          /* primary text */
   --accent: #FF3000;       /* Qubts brand red-orange */
   --bg: #E9E8EF;           /* page background */
-  --field: #F5F5F7;        /* search field surface */
-  --btn: #6D7082;          /* "Get & Read it" button */
-  --placeholder: #8A8A8F;  /* muted input placeholder */
-  --overlay-navy: 33, 38, 63;  /* rgb for the dimming overlays */
+  --btn-off: #6D7082;      /* button — inactive (empty field) */
+  --btn-on: #FF3000;       /* button — active (YouTube URL present) */
+  --clear-off: #CBC9D7;    /* clear × — inactive */
+  --clear-on: #1D1D1F;     /* clear × — active */
+  --placeholder: #8A8A8F;
+  --overlay-navy: 33, 38, 63;
   --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -27,8 +29,7 @@ body {
 /* --- Dimming overlays (search-focus easter egg) --- */
 .overlay {
   position: fixed;
-  left: 0;
-  top: 0;
+  left: 0; top: 0;
   width: 100%;
   pointer-events: none;
   opacity: 0;
@@ -42,18 +43,12 @@ body {
     rgba(var(--overlay-navy), 0.15) 60%,
     rgba(var(--overlay-navy), 0.30) 89%);
 }
-.overlay-2 {
-  height: 100vh;
-  background: rgba(var(--overlay-navy), 0.10);
-}
+.overlay-2 { height: 100vh; background: rgba(var(--overlay-navy), 0.10); }
 body.search-active .overlay { opacity: 1; }
 
-/* Top-left flourish: blends into the background, sits above the overlays so it
-   reveals faintly when the screen dims. */
 .tagline {
   position: absolute;
-  top: 32px;
-  left: 42px;
+  top: 32px; left: 42px;
   z-index: 30;
   max-width: 160px;
   font-size: 14px;
@@ -61,7 +56,6 @@ body.search-active .overlay { opacity: 1; }
   color: var(--bg);
 }
 
-/* Hero is a centered vertical column */
 .hero {
   position: relative;
   display: flex;
@@ -73,8 +67,7 @@ body.search-active .overlay { opacity: 1; }
 
 .parachute {
   position: absolute;
-  top: -47px;
-  left: 50%;
+  top: -47px; left: 50%;
   transform: translateX(34px);
   font-size: 36px;
 }
@@ -95,12 +88,10 @@ body.search-active .overlay { opacity: 1; }
   font-weight: 400;
   line-height: 1.375;
 }
-.subtitle strong { font-weight: 600; }
 .yt-link { font-weight: 600; color: var(--accent); text-decoration: none; }
 .yt-link:hover { text-decoration: underline; }
 
-/* URL input bar: 730 x 64, light surface, soft layered shadow.
-   Sits above the overlays so it stays bright while the rest dims. */
+/* URL input bar: white, 730 x 64, soft shadow, sits above the dimming overlays */
 .url-bar {
   position: relative;
   z-index: 20;
@@ -111,7 +102,7 @@ body.search-active .overlay { opacity: 1; }
   max-width: calc(100vw - 48px);
   height: 64px;
   padding-left: 20px;
-  background: var(--field);
+  background: #FFFFFF;
   border-radius: 8px;
   overflow: hidden;
   box-shadow:
@@ -135,29 +126,33 @@ body.search-active .overlay { opacity: 1; }
 }
 .url-input::placeholder { color: var(--placeholder); }
 
+/* Clear × — color driven by state via currentColor */
 .clear-icon {
   display: flex;
   flex-shrink: 0;
   margin: 0 12px;
-  cursor: pointer;
+  color: var(--clear-off);
+  cursor: default;
 }
+.clear-icon.active { color: var(--clear-on); cursor: pointer; }
 
-/* Dark slate button, full bar height, flush to the right edge */
+/* Button — slate when inactive, brand red when a YouTube URL is present */
 .btn-read {
   align-self: stretch;
   flex-shrink: 0;
   padding: 0 22px;
   border: none;
   border-radius: 0 8px 8px 0;
-  background: var(--btn);
+  background: var(--btn-off);
   color: #FFFFFF;
   font-family: var(--sans);
   font-size: 18px;
   font-weight: 600;
-  cursor: pointer;
+  cursor: default;
   transition: background 0.15s ease;
 }
-.btn-read:hover { background: #5E6173; }
+.btn-read:not(:disabled) { background: var(--btn-on); cursor: pointer; }
+.btn-read:not(:disabled):hover { background: #E22B00; }
 
 .helper {
   margin-top: 28px;
@@ -165,3 +160,4 @@ body.search-active .overlay { opacity: 1; }
   font-weight: 400;
   color: var(--ink);
 }
+.helper strong { font-weight: 600; }

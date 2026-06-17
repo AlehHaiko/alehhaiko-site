@@ -7,11 +7,11 @@
   <link rel="stylesheet" href="/qubts/style.css">
 </head>
 <body>
-  <!-- Dimming overlays for the search-focus easter egg. Hidden until the input is focused. -->
+  <!-- Dimming overlays for the search-focus easter egg -->
   <div class="overlay overlay-1" aria-hidden="true"></div>
   <div class="overlay overlay-2" aria-hidden="true"></div>
 
-  <!-- Top-left flourish. Color blends into the background; reveals faintly when the overlays dim the screen. -->
+  <!-- Top-left flourish: blends into the background, reveals when the screen dims -->
   <p class="tagline">Life is spectacle, but we believe in reading!</p>
 
   <main class="hero">
@@ -21,7 +21,7 @@
 
     <h1 class="headline">Read and Watch.</h1>
 
-    <p class="subtitle"><strong>Qubts</strong> is a magical service that gives you ability to read <a class="yt-link" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a> videos <span class="emoji">🤓</span></p>
+    <p class="subtitle">Qubts is a magical service that gives you ability to read <a class="yt-link" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a> videos <span class="emoji">🤓</span></p>
 
     <form class="url-bar" onsubmit="return false;">
       <span class="yt-icon" aria-hidden="true">
@@ -33,25 +33,39 @@
       <input type="text" class="url-input" placeholder="Insert a YouTube video URL here…" aria-label="YouTube video URL">
       <span class="clear-icon" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="10" cy="10" r="10" fill="#1D1D1F"/>
+          <circle cx="10" cy="10" r="10" fill="currentColor"/>
           <path d="M6.5 6.5 L13.5 13.5 M13.5 6.5 L6.5 13.5" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
         </svg>
       </span>
-      <button type="submit" class="btn-read">Get &amp; Read it</button>
+      <button type="submit" class="btn-read" disabled>Get &amp; Read it</button>
     </form>
 
-    <p class="helper">Copy &amp; Past any YouTube video link and Qubts will bring you the joy of reading.</p>
+    <p class="helper">Copy &amp; Past any <a class="yt-link" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube</a> video link and <strong>Qubts</strong> will bring you the joy of reading.</p>
   </main>
 
   <script>
     const bar = document.querySelector('.url-bar');
     const input = document.querySelector('.url-input');
-    // Dim the screen while the search field is focused (the tagline reveals on top).
+    const btn = document.querySelector('.btn-read');
+    const clearIcon = document.querySelector('.clear-icon');
+    const YT = /(youtube\.com|youtu\.be)/i;   // a YouTube link makes the buttons active
+
+    function refresh() {
+      const text = input.value.trim();
+      btn.disabled = !YT.test(text);            // button active only with a YouTube URL
+      clearIcon.classList.toggle('active', text.length > 0);  // clear active with any text
+    }
+    input.addEventListener('input', refresh);
+
+    // Search-focus easter egg: dim the screen while typing
     input.addEventListener('focus', () => document.body.classList.add('search-active'));
     input.addEventListener('blur', () => document.body.classList.remove('search-active'));
-    // Clicking anywhere on the bar focuses the field.
+
+    // Clicking the bar focuses the field; clicking × clears it
     bar.addEventListener('mousedown', (e) => { if (e.target !== input) { e.preventDefault(); input.focus(); } });
-    document.querySelector('.clear-icon').addEventListener('click', () => { input.value = ''; input.focus(); });
+    clearIcon.addEventListener('click', () => { input.value = ''; refresh(); input.focus(); });
+
+    refresh();
   </script>
 </body>
 </html>
